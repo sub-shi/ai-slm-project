@@ -39,9 +39,6 @@ ai-slm-project/
 ├── report/
 │   └── report.html
 │
-├── src/
-│   └── orchestrator.py
-│
 ├── requirements.txt
 │
 └── README.md
