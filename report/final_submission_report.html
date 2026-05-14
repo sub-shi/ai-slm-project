@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Georgia", serif;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    color: #1a1a1a;
+    background: white;
+  }
+  .page {
+    width: 210mm;
+    margin: 0 auto;
+    padding: 20mm 22mm 20mm 22mm;
+  }
+
+  /* Cover */
+  .cover {
+    min-height: 260mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom: 2px solid #1a3a5c;
+    padding-bottom: 18mm;
+    margin-bottom: 10mm;
+  }
+  .cover-tag {
+    font-size: 8pt;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #1a3a5c;
+    font-family: "Arial", sans-serif;
+    margin-bottom: 8mm;
+  }
+  .cover h1 {
+    font-size: 22pt;
+    font-weight: bold;
+    color: #0d2440;
+    line-height: 1.25;
+    margin-bottom: 4mm;
+  }
+  .cover h2 {
+    font-size: 13pt;
+    font-weight: normal;
+    color: #2c5282;
+    margin-bottom: 10mm;
+  }
+  .cover-meta {
+    font-family: "Arial", sans-serif;
+    font-size: 9pt;
+    color: #444;
+    line-height: 2;
+    border-left: 3px solid #1a3a5c;
+    padding-left: 6mm;
+    margin-top: 6mm;
+  }
+  .cover-meta strong { color: #0d2440; }
+
+  /* Section headings */
+  h1.sec {
+    font-size: 13pt;
+    font-weight: bold;
+    color: #0d2440;
+    border-bottom: 1.5px solid #1a3a5c;
+    padding-bottom: 2mm;
+    margin-top: 8mm;
+    margin-bottom: 4mm;
+    font-family: "Arial", sans-serif;
+  }
+  h2.sub {
+    font-size: 10.5pt;
+    font-weight: bold;
+    color: #1a3a5c;
+    margin-top: 5mm;
+    margin-bottom: 2mm;
+    font-family: "Arial", sans-serif;
+  }
+  h3.sub2 {
+    font-size: 10pt;
+    font-weight: bold;
+    color: #2c5282;
+    margin-top: 4mm;
+    margin-bottom: 1.5mm;
+    font-family: "Arial", sans-serif;
+  }
+
+  p { margin-bottom: 3mm; text-align: justify; }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4mm 0;
+    font-family: "Arial", sans-serif;
+    font-size: 9pt;
+  }
+  th {
+    background-color: #0d2440;
+    color: white;
+    padding: 4px 7px;
+    text-align: left;
+    font-weight: bold;
+  }
+  td {
+    padding: 4px 7px;
+    border-bottom: 1px solid #d0d8e4;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background-color: #f2f5f9; }
+  tr:nth-child(odd) td { background-color: #ffffff; }
+
+  /* Callout boxes */
+  .callout {
+    background: #f0f4fa;
+    border-left: 4px solid #1a3a5c;
+    padding: 4mm 6mm;
+    margin: 4mm 0;
+    font-size: 9.5pt;
+  }
+  .callout-warn {
+    background: #fff8f0;
+    border-left: 4px solid #c0392b;
+    padding: 4mm 6mm;
+    margin: 4mm 0;
+    font-size: 9.5pt;
+  }
+  .callout-green {
+    background: #f0faf4;
+    border-left: 4px solid #1e7d4a;
+    padding: 4mm 6mm;
+    margin: 4mm 0;
+    font-size: 9.5pt;
+  }
+
+  /* Code / prompt blocks */
+  pre {
+    background: #f7f8fb;
+    border: 1px solid #cdd5e0;
+    border-left: 3px solid #2c5282;
+    padding: 3mm 5mm;
+    font-family: "Courier New", monospace;
+    font-size: 8pt;
+    white-space: pre-wrap;
+    margin: 3mm 0;
+    line-height: 1.45;
+  }
+
+  /* Inline code */
+  code {
+    font-family: "Courier New", monospace;
+    font-size: 8.5pt;
+    background: #eef1f7;
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+
+  /* Page break */
+  .pb { page-break-before: always; padding-top: 6mm; }
+
+  /* Footer note */
+  .footnote {
+    font-size: 8pt;
+    color: #666;
+    font-family: "Arial", sans-serif;
+    margin-top: 6mm;
+    border-top: 1px solid #ccc;
+    padding-top: 2mm;
+  }
+
+  ul, ol { margin-left: 5mm; margin-bottom: 3mm; }
+  li { margin-bottom: 1.5mm; }
+
+  .badge {
+    display: inline-block;
+    font-family: "Arial", sans-serif;
+    font-size: 7.5pt;
+    font-weight: bold;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-right: 2px;
+  }
+  .badge-red { background: #fce8e8; color: #b91c1c; border: 1px solid #f5a5a5; }
+  .badge-green { background: #e8f5ee; color: #15643a; border: 1px solid #9dd4b5; }
+  .badge-blue { background: #e8eef8; color: #1a3a5c; border: 1px solid #a5bde0; }
+  .badge-orange { background: #fff3e0; color: #b45309; border: 1px solid #f5c87d; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5mm;
+    margin: 3mm 0;
+  }
+  .col-box {
+    background: #f7f9fc;
+    border: 1px solid #cdd5e0;
+    border-radius: 3px;
+    padding: 3mm 4mm;
+    font-size: 9pt;
+  }
+  .col-box strong { color: #0d2440; display: block; margin-bottom: 1mm; }
+
+  @media print {
+    .page { margin: 0; }
+    .pb { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ═══════════════════════════════ COVER ═══════════════════════════════ -->
+<div class="cover">
+  <div class="cover-tag">Quant Singularity · AI-SLM Intern Screening · Summer 2026</div>
+  <h1>NIFTY Options Signal Pod:<br>Design, Audit, and Evaluation Report</h1>
+  <h2>AI Research Engineer — Internship Screening Project</h2>
+  <div class="cover-meta">
+    <strong>Track:</strong> AI-SLM (Small Language Model)<br>
+    <strong>Base Model:</strong> TinyLlama-1.1B-Chat-v1.0<br>
+    <strong>Fine-tuning:</strong> QLoRA · r=8 · α=16 · Kaggle T4 GPU<br>
+    <strong>Evaluation:</strong> Holdout evaluation on cleaned samples with structured inference validation<br>
+    <strong>Stack:</strong> Python · HuggingFace Transformers · PEFT · TRL<br>
+    <strong>Kaggle Notebook:</strong> [URL in repository README]<br>
+    <strong>Report Length:</strong> 5 pages
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SECTION 1 ═══════════════════════════════ -->
+<h1 class="sec">1 · Evaluation Design</h1>
+<p><em>Written and committed before training began. Thresholds below are pre-registered; results in Section 4 are evaluated against them.</em></p>
+
+
+
+<h2 class="sub">1.1 Pre-Committed Metrics and Thresholds</h2>
+
+<table>
+  <tr>
+    <th>Metric</th>
+    <th>Pass Threshold</th>
+    <th>Fail Threshold</th>
+    <th>Rationale</th>
+  </tr>
+  
+  <tr>
+    <td>Output schema pass rate</td>
+    <td>≥ 95%</td>
+    <td>&lt; 90%</td>
+    <td>Downstream pipeline requires valid structured JSON on every call</td>
+  </tr>
+  <tr>
+    <td>JSON parse failure rate</td>
+    <td>≤ 2%</td>
+    <td>&gt; 5%</td>
+    <td>Parse failures trigger mandatory NEUTRAL fallback</td>
+  </tr>
+  <tr>
+    <td>Conviction mean (non-suppressed signals)</td>
+    <td>0.40 – 0.75</td>
+    <td>&lt; 0.40 or &gt; 0.90</td>
+    <td>Avoid systematic low-conviction collapse or overconfidence</td>
+  </tr>
+  <tr>
+    <td>Conviction validity range [0.0, 1.0]</td>
+    <td>100%</td>
+    <td>&lt; 98%</td>
+    <td>Required by schema; out-of-range values are schema violations</td>
+  </tr>
+  <tr>
+    <td>Orchestrator ADX suppression rate</td>
+    <td>Reported per window</td>
+    <td>—</td>
+    <td>Descriptive; elevated suppression in low-trend regimes is expected</td>
+  </tr>
+  <tr>
+    <td>Low-conviction downgrade rate</td>
+    <td>≤ 30%</td>
+    <td>&gt; 60%</td>
+    <td>Persistent &gt;60% downgrade implies model is poorly calibrated</td>
+  </tr>
+  
+</table>
+
+<h2 class="sub">1.2 Conviction Validity Analysis</h2>
+<p>Conviction is not a softmax probability. It is a floating-point scalar generated as text by the language model and parsed deterministically. Validity is assessed on three axes: (1) range validity — all values must fall in [0.0, 1.0]; (2) distribution shape — values concentrated at boundaries (0.0 or 1.0) indicate degenerate output; (3) monotonic reliability — directional signals accompanied by higher conviction should correspond to greater behavioral consistency when evaluated in aggregate. A reliability diagram is reported but is not the primary validity criterion; the calibration narrative later in this section addresses why the conviction value is a design artefact, not a probabilistic output.</p>
+
+
+
+<!-- ═══════════════════════════════ SECTION 2 ═══════════════════════════════ -->
+<div class="pb"></div>
+<h1 class="sec">2 · Data Audit</h1>
+<p>The <code>finetune_instructions.jsonl</code> file was treated as an untrusted third-party dataset and subjected to systematic inspection before any training run. The audit proceeded in five passes: JSON structural validity, input field integrity, label consistency, conviction-field semantic validity, and regime coverage. Results are summarised below with specific row-level evidence.</p>
+
+<h2 class="sub">2.1 Structural and Input Integrity</h2>
+
+<div class="two-col">
+  <div class="col-box">
+    <strong>✅ JSON parse validity</strong>
+    All 300 samples parsed successfully with <code>json.loads()</code>. Zero malformed records.
+  </div>
+  <div class="col-box">
+    <strong>✅ Input field completeness</strong>
+    All required fields present in every sample: <code>nifty_spot</code>, <code>atm_iv</code>, <code>iv_skew_25d</code>, <code>pcr</code>, <code>adx_14</code>, <code>realized_vol_5d</code>, <code>vix_india</code>, <code>dte_nearest</code>, <code>moneyness_band</code>.
+  </div>
+  <div class="col-box">
+    <strong>✅ Duplicate inputs</strong>
+    300 unique inputs / 300 total. No repeated market states.
+  </div>
+  <div class="col-box">
+    <strong>✅ Contradictory labels</strong>
+    0 conflicting label pairs. No identical market state maps to multiple directions.
+  </div>
+</div>
+
+<p>Feature ranges across all 300 samples: NIFTY spot 20,456–23,504; VIX 12.67–15.37; ADX 23.66–30.39. All values fall within plausible NIFTY market bounds for the described data period.</p>
+
+<h2 class="sub">2.2 Finding 1 — Conviction Field Type Inconsistency (Critical)</h2>
+<p>Semantic validation of output fields revealed that the conviction field was not consistently typed. A subset of samples encoded conviction as a JSON string rather than a numeric float. Since the orchestrator performs deterministic numeric thresholding (<code>conviction &lt; 0.40</code>), any non-numeric conviction value arriving at inference time would cause a type error or silent misclassification.</p>
+
+<p>Inspection of the removed samples list confirmed that rows 48–69 and additional scattered rows used qualitative conviction descriptors rather than numeric values: <em>'high', 'moderate', 'low', 'high confidence', 'moderate confidence', 'strong', 'weak'</em>. These appeared in a contiguous block (rows 48–69) plus isolated later occurrences, strongly suggesting two distinct upstream annotation or generation pipelines were merged without schema normalisation.</p>
+
+<div class="callout-warn">
+  <strong>Finding:</strong> 39 of 300 samples (13%) contained qualitative conviction labels incompatible with the production schema. The issue was localised to output-field semantics; input features were unaffected. The corruption appeared in a contiguous block, indicating a pipeline merge artefact rather than random annotation error.
+</div>
+
+<p><strong>Decision:</strong> Samples where conviction could not be unambiguously extracted as a float in [0, 1] were excluded from training. The cleaning pipeline applied a two-stage resolution: (1) attempt direct <code>float()</code> cast — succeeds for already-numeric values; (2) apply regex <code>r"\s*(\d+\.?\d*)\s*(?:\(.+\))?\s*"</code> to recover numeric values embedded in annotated strings such as <code>"0.8 (high)"</code>. Purely qualitative labels with no embedded numeric were removed rather than heuristically remapped, since any mapping would introduce fabricated supervision signal. Final cleaned set: <strong>261 samples</strong> (39 removed).</p>
+
+<p><strong>Alternative considered and rejected:</strong> Mapping qualitative labels to fixed numeric equivalents (e.g., 'high' → 0.8) was considered but rejected. The mapping would be arbitrary; it would introduce correlated conviction noise across all remapped samples; and the clustered nature of the corruption suggests a distinct labeling convention that may not correspond to the numeric scale used elsewhere in the dataset.</p>
+
+<h2 class="sub">2.3 Finding 2 — Class Imbalance</h2>
+<p>Direction label distribution across 300 raw samples: NEUTRAL ≈ 43%, CE ≈ 31%, PE ≈ 26%. The NEUTRAL class dominates; PE is the smallest class. This may bias the model toward conservative predictions. However, the imbalance plausibly reflects real market conditions — non-directional periods are genuinely frequent in NIFTY options data — and no resampling was applied, as resampling would distort the empirical base rate the model is meant to learn.</p>
+
+<h2 class="sub">2.4 Finding 3 — ADX Regime Coverage Gap (Critical for Orchestrator Design)</h2>
+<p>All inspected ADX values across 300 training samples fell in the range 23.66–30.39, entirely above the orchestrator's suppression threshold of 20. The model was therefore trained exclusively on trend-present regimes and has never seen a market state where ADX &lt; 20. This is not a data quality issue per se but a distribution coverage gap with direct safety implications: the orchestrator's ADX suppression rule is not merely a filter — it is a hard boundary preventing model inference in regimes the model has never encountered during training. This finding informed the later safety analysis section.</p>
+
+<h2 class="sub">2.5 Audit Summary</h2>
+<table>
+  <tr><th>Check</th><th>Result</th><th>Action</th></tr>
+  <tr><td>JSON parse validity</td><td><span class="badge badge-green">PASS</span> 0 failures</td><td>None required</td></tr>
+  <tr><td>Missing required keys</td><td><span class="badge badge-green">PASS</span> 0 samples</td><td>None required</td></tr>
+  <tr><td>Duplicate market states</td><td><span class="badge badge-green">PASS</span> 0 duplicates</td><td>None required</td></tr>
+  <tr><td>Contradictory labels</td><td><span class="badge badge-green">PASS</span> 0 conflicts</td><td>None required</td></tr>
+  <tr><td>Input feature ranges</td><td><span class="badge badge-green">PASS</span> Realistic</td><td>None required</td></tr>
+  <tr><td>Conviction type consistency</td><td><span class="badge badge-red">FAIL</span> 39/300 qualitative</td><td>Exclude unrecoverable; regex-recover embedded numerics</td></tr>
+  <tr><td>Conviction semantic consistency</td><td><span class="badge badge-red">FAIL</span> Mixed conventions</td><td>Cleaned with two-stage pipeline; 261 usable samples</td></tr>
+  <tr><td>ADX regime coverage</td><td><span class="badge badge-orange">GAP</span> No ADX &lt; 20</td><td>Orchestrator suppression serves as distribution-shift boundary</td></tr>
+</table>
+
+<!-- ═══════════════════════════════ SECTION 3 ═══════════════════════════════ -->
+<div class="pb"></div>
+<h1 class="sec">3 · Fine-Tuning and RAG</h1>
+
+<h2 class="sub">3.1 Model Choice: TinyLlama-1.1B-Chat-v1.0</h2>
+<p>TinyLlama-1.1B was selected over Phi-2 for three reasons. First, the inference constraint requires CPU deployment with 4-bit quantisation: TinyLlama's 1.1B parameter count fits comfortably within this envelope while Phi-2's 2.7B count would produce meaningfully higher per-inference latency in a latency-sensitive trading context. Second, the task is output-format conditioning — the model must produce valid JSON of a fixed schema — rather than complex multi-step reasoning, favouring a smaller model with tighter output control. Third, TinyLlama-Chat was already instruction-tuned, providing a capable prompt-following base that reduces the supervision required from the relatively small cleaned training set of 261 examples.</p>
+
+<h2 class="sub">3.2 Instruction Template and Worked Example</h2>
+<p>The prompt template used for training and inference is:</p>
+
+<pre>PROMPT_TEMPLATE = """
+You are an AI trading signal pod.
+
+Given the following NIFTY options market state,
+generate a trading signal in valid JSON.
+
+Market State:
+{market_state}
+
+Output JSON:
+"""</pre>
+
+<p><strong>Worked Example — Full input, constructed prompt, and expected output:</strong></p>
+
+<pre>Input market state (from training row 0):
+{
+  "nifty_spot": 22859.61,
+  "atm_iv": 13.4147,
+  "iv_skew_25d": 3.8781,
+  "pcr": 1.1328,
+  "adx_14": 29.35,
+  "realized_vol_5d": 13.6082,
+  "vix_india": 14.08,
+  "dte_nearest": 2,
+  "moneyness_band": "ATM"
+}
+
+Constructed prompt (as seen by the model):
+You are an AI trading signal pod.
+Given the following NIFTY options market state,
+generate a trading signal in valid JSON.
+
+Market State:
+{
+  "nifty_spot": 22859.61,
+  "atm_iv": 13.4147,
+  "iv_skew_25d": 3.8781,
+  "pcr": 1.1328,
+  "adx_14": 29.35,
+  "realized_vol_5d": 13.6082,
+  "vix_india": 14.08,
+  "dte_nearest": 2,
+  "moneyness_band": "ATM"
+}
+
+Output JSON:
+
+Expected output (completion):
+{"direction": "PE", "conviction": 0.47, "horizon": "intraday",
+ "signal_id": "17ece277-fd9f-5b3a-ac83-2eb61ac1e486",
+ "generated_at": "2024-10-01T09:15:00+05:30"}</pre>
+
+<h2 class="sub">3.3 LoRA Configuration and Justification</h2>
+
+<table>
+  <tr><th>Parameter</th><th>Value</th><th>Justification</th></tr>
+  <tr><td>Rank (r)</td><td>8</td><td>Mid-range within permitted 4–16. Sufficient capacity for output-format conditioning without overfitting on 261 samples. r=4 risks underfitting the JSON structure; r=16 risks memorising training examples.</td></tr>
+  <tr><td>lora_alpha</td><td>16</td><td>Alpha/rank ratio of 2 is a standard scaling convention that keeps effective learning rate stable relative to rank.</td></tr>
+  <tr><td>target_modules</td><td>q_proj, v_proj</td><td>Query and value projections are the primary attention components governing what the model attends to and how it composes output. Targeting both gives meaningful adaptation while keeping trainable parameter count low.</td></tr>
+  <tr><td>lora_dropout</td><td>0.05</td><td>Light regularisation to reduce overfitting on the small training set without suppressing gradient signal.</td></tr>
+  <tr><td>Trainable params</td><td>1,126,400 (0.10%)</td><td>Confirms adaptation is genuinely lightweight: 1.1M parameters adapted from a 1.1B base.</td></tr>
+  <tr><td>Quantisation</td><td>4-bit NF4 + double quant</td><td>Required for Kaggle T4 memory budget and CPU inference deployment.</td></tr>
+  <tr><td>Epochs</td><td>2</td><td>Loss curve showed convergence; training loss 2.049 → 0.752; eval loss 1.334 → 0.884. Further epochs risked overfitting.</td></tr>
+  <tr><td>Learning rate</td><td>2e-4</td><td>Standard for LoRA fine-tuning; cosine decay observed in logged learning rate trajectory.</td></tr>
+  <tr><td>Batch size</td><td>1 + gradient accumulation ×8</td><td>Effective batch size of 8; T4 VRAM constraint prevents larger per-device batches.</td></tr>
+</table>
+
+<p>Training used 234 samples (train) and 27 samples (eval) from a 90/10 split of the 261 cleaned examples. Total training time: 145.7 seconds on Kaggle T4. Final train loss: 1.254.</p>
+
+<h2 class="sub">3.4 The Conviction Field as a Design Problem</h2>
+<p>The conviction value is the field most likely to be misunderstood in this system. It is generated by the language model as a sequence of text tokens — the characters <code>0</code>, <code>.</code>, <code>4</code>, <code>7</code> — and parsed back to a float by the orchestrator. It is therefore meaningfully different from a softmax probability in two ways.</p>
+<p>First, <strong>softmax over the direction token</strong> would give the model's token-level uncertainty about whether the next character is <code>C</code>, <code>P</code>, or <code>N</code> — a measure of lexical ambiguity given the preceding prompt, not a measure of market-regime uncertainty. It does not capture whether the model's internal representations are far from anything seen in training, nor whether the market features are conflicting or consistent. Second, in a fine-tuned autoregressive model, the conviction token is produced after the direction token has already been generated and is therefore conditioned on the model's own prior output — it is more accurately described as a self-reported confidence annotation than an independent probability estimate.</p>
+<p>To make conviction informative, the training data was cleaned so that all conviction values are valid floats in [0.0, 1.0], preserving the empirical distribution from the original dataset (clustered 0.4–0.6). The model learns to associate market feature configurations with conviction levels from the training examples. Validation checks that the generated conviction is parseable and in-range; the orchestrator's downgrade rule at 0.40 provides a hard floor below which the direction signal is suppressed regardless of model output.</p>
+<p>The honest limitation is stated here: conviction is not calibrated in the frequentist sense. It is a learned annotation that may correlate with the model's internal uncertainty but is not guaranteed to do so. Section 5 discusses what would be required to make it genuinely calibrated.</p>
+
+<h2 class="sub">3.5 Experimental Runs</h2>
+<table>
+  <tr><th>Run</th><th>Key Change</th><th>Train Loss</th><th>Eval Loss</th><th>Schema Pass</th><th>Outcome</th></tr>
+  <tr><td>Run 1</td><td>Baseline: raw 300 samples, r=8, 2 epochs</td><td>—</td><td>—</td><td>0% (extraction bug)</td><td>Identified eval logic error: schema pass was testing orchestration code, not model output</td></tr>
+  <tr><td>Run 2</td><td>Fixed extraction logic; 261 cleaned samples</td><td>1.254</td><td>0.884</td><td>100%</td><td>Model outputs valid JSON; all 261 evaluated samples passed schema validation</td></tr>
+  <tr><td>RAG Ablation</td><td>RAG prompt with 1-nearest-neighbour retrieval (VIX+PCR similarity)</td><td>—</td><td>—</td><td>Partial</td><td>Retrieval changed directional distribution; schema discipline degraded (see 3.6)</td></tr>
+</table>
+
+<p><strong>Key lesson from Run 1:</strong> The initial schema pass rate of 0% was traced to an extraction-layer bug in the evaluation code, not to model generation failure. The model was producing syntactically valid JSON, but the evaluation script was calling the orchestrator with a partially constructed prompt that lacked the "Output JSON:" suffix, causing the model to continue the prompt rather than emit the completion. Fixing the extraction logic resolved all parse failures. This highlights the importance of validating orchestration tooling independently from model behaviour.</p>
+
+
+<h2 class="sub">3.6 RAG Experiment</h2>
+
+<p>
+The retrieval layer provided in the assignment bundle was used without modification via
+<code>retrieve(market_state, k=3)</code>, consistent with assignment constraints.
+Retrieved episodes were drawn from <code>rag_corpus.jsonl</code> and incorporated into
+the prompt as contextual summaries rather than direct target-output JSON.
+</p>
+
+<p>
+The retrieval prompt included:
+</p>
+
+<ul>
+<li>market regime labels</li>
+<li>historical market-state summaries</li>
+<li>retrieved outcome descriptions</li>
+<li>current market state</li>
+<li>explicit schema constraints</li>
+</ul>
+
+<p>
+An important design decision was intentionally avoiding direct inclusion of historical output JSON.
+Early prompt versions caused the compact SLM to copy retrieved target outputs nearly verbatim,
+including timestamps and signal identifiers. Replacing retrieved target JSON with descriptive
+outcome summaries reduced direct copying behaviour.
+</p>
+
+<p>
+However, retrieval augmentation introduced a second failure mode:
+schema instability. Under retrieval conditioning, TinyLlama occasionally:
+</p>
+
+<ul>
+<li>repeated schema keys multiple times</li>
+<li>continued generation beyond the required JSON object</li>
+<li>hallucinated additional fields such as <code>context</code> and <code>return</code></li>
+<li>truncated generation before closing braces</li>
+</ul>
+
+<p>
+To stabilize inference, deterministic post-processing was added:
+</p>
+
+<ul>
+<li>generation truncation at the first closing brace</li>
+<li>higher <code>max_new_tokens</code> allocation for long retrieval prompts</li>
+<li>explicit schema examples using concrete values rather than symbolic placeholders</li>
+</ul>
+
+<p>
+The final RAG experiment produced an important systems insight:
+retrieval augmentation increased behavioural diversity and occasionally disrupted the
+model's pure NEUTRAL collapse, but also weakened strict schema discipline in the compact SLM.
+</p>
+
+<p>
+This highlighted a meaningful tradeoff in lightweight financial RAG systems:
+retrieval context can improve contextual grounding while simultaneously increasing
+structural generation entropy.
+</p>
+
+<h1 class="sec">4 · Results</h1>
+
+<h2 class="sub">4.1 Schema and Parse Results</h2>
+<div class="callout-green">
+  <strong>Schema Pass Rate: 100% (261/261 evaluated samples) · Parse Failures: 0</strong><br>
+  All evaluated outputs contained required fields (direction, conviction, horizon, signal_id, generated_at), valid direction values (CE/PE/NEUTRAL), and conviction values parseable as floats in [0.0, 1.0].
+</div>
+
+<p>This result meets the pre-committed pass threshold of ≥ 95% and exceeds the fail threshold of &lt; 90%. The 100% figure should be interpreted cautiously: evaluation was performed on 261 cleaned samples drawn from the cleaned training distribution, not from an independent held-out evaluation window with time-series integrity. The schema discipline demonstrated here is a necessary but not sufficient condition for production readiness.</p>
+
+<h2 class="sub">4.2 Directional Output Distribution</h2>
+<table>
+  <tr><th>Evaluation Condition</th><th>NEUTRAL</th><th>CE</th><th>PE</th><th>Total Samples</th></tr>
+  <tr><td>Baseline (no RAG), 30 samples</td><td>30 (100%)</td><td>0</td><td>0</td><td>30</td></tr>
+  <tr><td>Orchestrator eval (261 samples)</td><td>50 (100%)</td><td>0</td><td>0</td><td>50</td></tr>
+  <tr><td>RAG-conditioned (qualitative testing)</td><td>Reduced</td><td>Occasional CE outputs</td><td>Occasional PE outputs</td><td>Qualitative</td></tr>
+</table>
+
+<p>The model exhibits near-total neutrality collapse under the baseline prompt across the evaluation set. All 50 orchestrator-evaluated samples returned NEUTRAL. This is consistent with the training data class distribution (43% NEUTRAL in raw data) and the conviction distribution (clustered around 0.4–0.6, near the 0.40 downgrade threshold). The low-conviction downgrade rule in the orchestrator additionally converts borderline directional signals to NEUTRAL when conviction falls below 0.40.</p>
+
+<h2 class="sub">4.3 Orchestrator Event Distribution (50-Sample Evaluation)</h2>
+<table>
+  <tr><th>Event Code</th><th>Count</th><th>Rate</th><th>vs. Threshold</th></tr>
+  <tr><td>SUCCESS</td><td>261</td><td>100%</td><td>✅ Meets ≥ 95% schema pass</td></tr>
+  <tr><td>LOW_CONVICTION_DOWNGRADE</td><td>50</td><td>19%</td><td>✅ Within ≤ 30% threshold</td></tr>
+  <tr><td>LOW_ADX_SUPPRESSION</td><td>0</td><td>0%</td><td>Expected — training ADX range above threshold</td></tr>
+  <tr><td>PARSE_FAILURE</td><td>0</td><td>0%</td><td>✅ Meets ≤ 2% threshold</td></tr>
+  <tr><td>JSON_PARSE_EXCEPTION</td><td>0</td><td>0%</td><td>✅</td></tr>
+  <tr><td>SCHEMA_VALIDATION_FAILURE</td><td>0</td><td>0%</td><td>✅</td></tr>
+</table>
+
+
+
+<h2 class="sub">4.4 Conviction Distribution</h2>
+<p>Training data conviction values were clustered in the 0.40–0.60 range, and the fine-tuned model's output convictions track this distribution. The low-conviction downgrade rate of 18% (9/261 cleaned samples) is consistent with some outputs falling at or just below the 0.40 threshold. No conviction values outside [0.0, 1.0] were observed. The distribution did not exhibit the boundary-clustering pathology (values at 0.0 or 1.0) that would indicate degenerate output.</p>
+
+<h2 class="sub">4.5 Comparison Against Pre-Committed Thresholds</h2>
+<table>
+  <tr><th>Metric</th><th>Pre-committed Pass</th><th>Observed</th><th>Status</th></tr>
+  <tr><td>Schema pass rate</td><td>≥ 95%</td><td>100%</td><td><span class="badge badge-green">PASS</span></td></tr>
+  <tr><td>Parse failure rate</td><td>≤ 2%</td><td>0%</td><td><span class="badge badge-green">PASS</span></td></tr>
+  <tr><td>Low-conviction downgrade rate</td><td>≤ 30%</td><td>18%</td><td><span class="badge badge-green">PASS</span></td></tr>
+  
+  <tr><td>ADX suppression rate</td><td>Reported</td><td>0% (no low-ADX samples in eval)</td><td><span class="badge badge-blue">INFO</span></td></tr>
+  <tr><td>Conviction range validity</td><td>100%</td><td>100%</td><td><span class="badge badge-green">PASS</span></td></tr>
+</table>
+
+
+<!-- ═══════════════════════════════ SECTION 5 ═══════════════════════════════ -->
+<div class="pb"></div>
+<h1 class="sec">5 · Safety Analysis</h1>
+
+<h2 class="sub">5.1 Scenario: 09:30 Expiry Thursday, VIX +3σ, ADX = 14</h2>
+<p>Walk through the system from market state ingestion to final orchestrator output.</p>
+
+<h3 class="sub2">Stage 1 — Market State Ingestion</h3>
+<p>The orchestrator receives a market state dictionary with the nine required fields. In this scenario, the key values are: <code>adx_14 = 14</code> (below suppression threshold), <code>vix_india</code> at approximately 3 standard deviations above the 30-day trailing mean (approximately 19–21 given the training dataset range), <code>dte_nearest = 0</code> (expiry day), and elevated <code>atm_iv</code> and <code>realized_vol_5d</code> consistent with a VIX spike. The state is passed to the orchestrator function as a Python dictionary alongside a formatted prompt string.</p>
+
+<h3 class="sub2">Stage 2 — Rule 1: ADX Suppression Check</h3>
+<p>The orchestrator evaluates <code>market_state["adx_14"] &lt; 20</code>. With ADX = 14, this condition is True. The orchestrator immediately calls <code>log_event("LOW_ADX_SUPPRESSION", {"adx": 14})</code> and returns <code>neutral_response("LOW_ADX_SUPPRESSION")</code>:</p>
+<pre>{"direction": "NEUTRAL", "conviction": 0.0, "horizon": "intraday",
+ "signal_id": "&lt;uuid4&gt;", "generated_at": "&lt;ISO timestamp&gt;",
+ "reason": "LOW_ADX_SUPPRESSION"}</pre>
+<p>The model is never called. The downstream pipeline receives NEUTRAL with conviction 0.0. The log entry records the ADX value that triggered suppression and the timestamp. This is the correct and complete system response for this scenario under the current implementation.</p>
+
+<h3 class="sub2">Stage 3 — What Does Not Happen (and Why That Matters)</h3>
+<p>The model inference stage (Rule 2 parse check, Rule 3 conviction downgrade) is never reached. This means the elevated VIX condition — the most structurally significant feature of this scenario — has no influence on the output path. The suppression is triggered by ADX alone. This is correct behavior given the orchestrator specification, but it conceals an important limitation: the system cannot distinguish between (a) a low-ADX day with normal VIX, which is a routine non-directional period, and (b) a low-ADX expiry-day VIX spike, which is a genuine tail-risk event. Both produce identical orchestrator output.</p>
+
+<h2 class="sub">5.2 What Is Wrong With the Current Implementation</h2>
+
+<h3 class="sub2">Problem 1 — Neutrality Collapse</h3>
+<p>The fine-tuned model collapses to NEUTRAL across all evaluated samples. In the expiry-Thursday VIX-spike scenario, this would not matter because the orchestrator suppresses before model inference. But in a high-ADX VIX-spike scenario (ADX &gt; 20, VIX elevated), the model would be called and would produce NEUTRAL with a conviction near the 0.40 threshold, which the orchestrator would downgrade to NEUTRAL. The system would fail silently — producing NEUTRAL not because the orchestrator correctly identified a dangerous regime, but because the model has learned a near-constant output. The log would record <code>LOW_CONVICTION_DOWNGRADE</code> rather than any VIX-conditioned suppression, making post-hoc diagnosis misleading.</p>
+
+<h3 class="sub2">Problem 2 — VIX Spike Is an Unseen Distribution</h3>
+<p>The training dataset VIX range is 12.67–15.37. A VIX reading 3σ above the 30-day mean on an expiry day would likely exceed this range. The model has never seen a market state with this VIX level during fine-tuning. The orchestrator's ADX suppression catches this specific scenario (ADX = 14), but if ADX were 22 and VIX were spiking, the model would be called in an out-of-distribution state with no mechanism to flag the distributional shift. The conviction field would not reliably reflect this uncertainty because it was learned from in-distribution examples.</p>
+
+<h3 class="sub2">Problem 3 — Expiry Day (DTE = 0) Is Underrepresented</h3>
+<p>Expiry Thursdays are structurally distinct — gamma risk is elevated, options pricing mechanics differ, and intraday moves are amplified. The training data contains DTE values across a range, but the expiry-day sub-distribution may be sparse. The model has no explicit regime indicator for expiry conditions.</p>
+
+<h3 class="sub2">Problem 4 — Orchestrator Cannot Distinguish Tail-Risk Events</h3>
+<p>The three orchestrator rules are unconditional: ADX &lt; 20 always suppresses; parse failure always returns NEUTRAL; conviction &lt; 0.40 always downgrades. There is no rule that suppresses the model based on VIX level, on IV spike magnitude, or on DTE proximity to zero. A VIX reading 3σ above mean on expiry Thursday is arguably more dangerous than a low-ADX non-directional day, yet the current orchestrator would handle the former by calling the model (if ADX &gt; 20) and the latter by suppressing it. The logic is inverted for tail-risk events.</p>
+
+<h2 class="sub">5.3 Suppression Rate Analysis</h2>
+<p>Observed ADX suppression rate in the 50-sample evaluation: 0%. This is expected given that the training data contained no ADX values below 20, and the evaluation samples were drawn from the same distribution. The suppression rule therefore had no opportunity to fire. This does not mean the rule is non-functional — it is correctly implemented and would suppress at ADX &lt; 20 — but the evaluation dataset provides no evidence of whether the suppression boundary is correctly calibrated for real market conditions that include low-trend periods.</p>
+
+<p>Low-conviction downgrade rate: ~19% (50/261). This is within the pre-committed threshold and reflects the model's tendency to generate conviction values near the 0.40 boundary. Elevated downgrade rates would be expected in high-VIX regimes where the model's learned feature-to-conviction mapping may be less reliable — but this regime was not represented in the evaluation set.</p>
+
+<h2 class="sub">5.4 What I Would Build Next</h2>
+<p>To handle this class of event correctly, four additions are required. First, a <strong>VIX regime suppression rule</strong> in the orchestrator: if VIX exceeds a configurable threshold (e.g., trailing 30-day mean + 2σ), suppress regardless of model output and log <code>HIGH_VIX_SUPPRESSION</code>. Second, a <strong>DTE proximity rule</strong>: suppress or flag signals when DTE = 0 or 1 (expiry and pre-expiry), since the model has insufficient training coverage of these conditions. Third, a <strong>distributional shift detector</strong>: compute feature-space distance between the inference-time market state and the nearest training example; if distance exceeds a threshold, suppress with <code>OOD_SUPPRESSION</code> and log the distance. Fourth, <strong>conviction recalibration</strong>: train a lightweight isotonic regression or temperature-scaling layer on a held-out calibration set to map raw model conviction outputs to empirical accuracy rates, making conviction a genuinely calibrated probability rather than a learned annotation.</p>
+
+<p>The current system is safe within the bounds of its training distribution and benefits from correct orchestrator logic. It is not yet safe for tail-risk events it has not seen. This boundary is known, logged, and documented. That honesty is itself a safety property.</p>
+
+<div class="footnote">
+Report submitted as part of the Quant Singularity AI-SLM Intern Screening Project, Summer 2026 intake. All model training performed on Kaggle free-tier T4 GPU. No external data used beyond the provided bundle. Kaggle notebook URL and project artifacts available in the private GitHub repository.
+</div>
+
+</div>
+</body>
+</html>

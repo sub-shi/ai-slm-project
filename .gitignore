@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+venv/
+.venv/
+
+# Training artifacts
+notebook/tinyllama-slm/
+
+# Temporary files
+*.log
+*.tmp
+
+# MLflow (if generated locally)
+mlruns/
+
+# Large cache folders
+.cache/
+huggingface/
+hf_cache/
+
+# Torch cache
+torch_compile_debug/
+
+# Matplotlib cache
+.matplotlib/
+
+# Ignore accidental model duplicates
+*.bin
+
+# Keep adapter weights tracked
+!output/tinyllama_slm_adapter/
